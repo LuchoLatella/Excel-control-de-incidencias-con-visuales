@@ -8,8 +8,11 @@ class App:
         self.root = root
         self.root.title("Aplicación de Manipulación de Datos")
         
-        # Botones para cada funcionalidad
-        tk.Button(root, text="Cargar Archivo", command=self.cargar_archivo).pack()
+        # Botones para cargar archivos CSV y Excel
+        tk.Button(root, text="Cargar Archivo CSV", command=self.cargar_archivo_csv).pack()
+        tk.Button(root, text="Cargar Archivo Excel", command=self.cargar_archivo_excel).pack()
+        
+        # Otros botones para funcionalidades
         tk.Button(root, text="Limpiar Archivo", command=self.limpiar_archivo).pack()
         tk.Button(root, text="Generar Tabla Dinámica", command=self.generar_tabla_dinamica).pack()
         tk.Button(root, text="Cruce x Casos Ministerio de Salud", command=self.cruce_ministerio_salud).pack()
@@ -22,15 +25,25 @@ class App:
         
         self.data = None  # Para almacenar los datos cargados
     
-    def cargar_archivo(self):
+    def cargar_archivo_csv(self):
         file_path = filedialog.askopenfilename(title="Selecciona un archivo CSV", filetypes=[("Archivos CSV", "*.csv")])
         if file_path:
             try:
                 self.data = pd.read_csv(file_path, encoding='ISO-8859-1', delimiter=';')
-                self.text_area.insert(tk.END, "Archivo cargado exitosamente.\n")
+                self.text_area.insert(tk.END, "Archivo CSV cargado exitosamente.\n")
                 self.text_area.insert(tk.END, self.data.head().to_string() + "\n")
             except Exception as e:
-                messagebox.showerror("Error", f"No se pudo cargar el archivo: {str(e)}")
+                messagebox.showerror("Error", f"No se pudo cargar el archivo CSV: {str(e)}")
+
+    def cargar_archivo_excel(self):
+        file_path = filedialog.askopenfilename(title="Selecciona un archivo Excel", filetypes=[("Archivos Excel", "*.xls *.xlsx")])
+        if file_path:
+            try:
+                self.data = pd.read_excel(file_path)
+                self.text_area.insert(tk.END, "Archivo Excel cargado exitosamente.\n")
+                self.text_area.insert(tk.END, self.data.head().to_string() + "\n")
+            except Exception as e:
+                messagebox.showerror("Error", f"No se pudo cargar el archivo Excel: {str(e)}")
     
     def limpiar_archivo(self):
         if self.data is not None:
