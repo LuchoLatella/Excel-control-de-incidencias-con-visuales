@@ -4,7 +4,7 @@ from tkinter import filedialog, messagebox
 class App:
     def __init__(self, root):
         self.root = root
-        self.root.title("Aplicación de Manipulación de Datos")
+        self.root.title("Control de incidencias - Excel / .csv")
 
         # Importar las funciones necesarias de otros módulos
         from cargar_archivo import cargar_archivo_csv, cargar_archivo_excel
